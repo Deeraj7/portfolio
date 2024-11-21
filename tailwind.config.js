@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -44,59 +44,39 @@ export default {
       },
       animation: {
         gradient: "gradient 8s linear infinite",
-        slideUp: "slide-up 0.8s ease-out forwards",
-        fadeIn: "fadeIn 0.8s ease-out forwards",
-        bounce: "bounce 1s infinite",
+        bounce: "bounce 1s ease-in-out",
+        'spin-slow': 'spin 20s linear infinite',
+        'reveal': 'reveal 1s ease-out forwards',
+        'reveal-delayed': 'reveal 1s ease-out 0.5s forwards',
+        'slide-up': 'slide-up 0.2s ease-out',
+        'fade-out': 'fade-out 0.3s ease-out forwards',
       },
       keyframes: {
-        gradient: {
-          "0%, 100%": { backgroundPosition: "0% 50%" },
-          "50%": { backgroundPosition: "100% 50%" },
+        reveal: {
+          '0%': { transform: 'translateY(100%)' },
+          '100%': { transform: 'translateY(0)' },
         },
-        slideUp: {
-          "0%": {
-            transform: "translateY(20px)",
-            opacity: "0",
-          },
-          "100%": {
-            transform: "translateY(0)",
-            opacity: "1",
-          },
+        'slide-up': {
+          '0%': { transform: 'translateY(20px)', opacity: '0' },
+          '100%': { transform: 'translateY(0)', opacity: '1' },
         },
-        fadeIn: {
-          "0%": { opacity: "0" },
-          "100%": { opacity: "1" },
+        'fade-out': {
+          '0%': { opacity: '1' },
+          '100%': { opacity: '0' },
         },
         bounce: {
-          "0%, 100%": {
-            transform: "translateY(-25%)",
-            animationTimingFunction: "cubic-bezier(0.8, 0, 1, 1)",
-          },
-          "50%": {
-            transform: "translateY(0)",
-            animationTimingFunction: "cubic-bezier(0, 0, 0.2, 1)",
-          },
-        },
-        spin: {
-          to: { transform: "rotate(360deg)" },
-        },
-        pulse: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: ".5" },
+          '0%, 100%': { transform: 'translateY(0)' },
+          '50%': { transform: 'translateY(-25%)' },
         },
       },
-      backgroundImage: {
-        "cyber-grid":
-          "linear-gradient(to right, #00fff220 1px, transparent 1px), linear-gradient(to bottom, #00fff220 1px, transparent 1px)",
+      zIndex: {
+        50: "50",
+        60: "60",
+        70: "70",
       },
-      scale: {
-        102: "1.02",
-      },
-      transitionDuration: {
-        400: "400ms",
-      },
-      backdropBlur: {
-        xs: "2px",
+      textShadow: {
+        'glow': '0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0ea5e9',
+        'blue': '0 0 7px rgba(59, 130, 246, 0.5)',
       },
       typography: {
         DEFAULT: {
@@ -116,15 +96,10 @@ export default {
       boxShadow: {
         "inner-lg": "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
       },
-      zIndex: {
-        50: "50",
-        60: "60",
-        70: "70",
-      },
-      textShadow: {
-        'glow': '0 0 7px #fff, 0 0 10px #fff, 0 0 21px #fff, 0 0 42px #0ea5e9',
-        'blue': '0 0 7px rgba(59, 130, 246, 0.5)',
-      },
+    },
+    container: {
+      center: true,
+      padding: "1rem",
     },
     screens: {
       sm: "640px",
@@ -147,8 +122,8 @@ export default {
         '.text-gradient:hover': {
           transform: 'scale(1.05)',
         },
-      }
-      addUtilities(newUtilities, ['responsive', 'hover'])
-    }
+      };
+      addUtilities(newUtilities, ['responsive', 'hover']);
+    },
   ],
 };

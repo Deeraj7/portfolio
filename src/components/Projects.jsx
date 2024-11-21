@@ -11,7 +11,7 @@ const Projects = () => {
       title: "EasyDiceApply",
       description: "Comprehensive job application automation tool for Dice.com.",
       longDescription:
-        "EasyDiceApply is a cutting-edge web-based tool designed to revolutionize the job search process for job seekers on Dice.com. With features like advanced filtering, streamlined automation, and real-time status updates, it helps job seekers apply faster and focus on finding the perfect role. The project aims to empower job seekers by enabling them to efficiently target third-party job postings, reducing repetitive tasks and enhancing the overall application experience.",
+        "EasyDiceApply is a web tool that automates job applications on Dice.com, specifically targeting third-party job postings. With a single click, job seekers can submit multiple applications efficiently, eliminating repetitive manual steps.",
       tech: ["Python", "Selenium", "Flask", "Automation", "HTML", "CSS", "JavaScript"],
       github: "https://github.com/Deeraj7/EasyDiceApply",
       highlights: [
@@ -30,7 +30,7 @@ const Projects = () => {
       title: "SciKey",
       description: "Scientific article summarization and key phrase extraction platform.",
       longDescription:
-        "SciKey is a platform designed to assist researchers and academics in quickly identifying essential information from extensive scientific documents. Using advanced NLP techniques like Universal Sentence Encoder and TF-IDF, it provides precise summaries and key phrases, enhancing productivity and simplifying the research process. SciKey supports customizable summarization methods, relevance scoring, and real-time processing.",
+        "SciKey is a research assistant platform that helps users explore scientific literature through natural conversations. Users can ask questions in plain language and receive relevant answers extracted from research papers, along with recommendations for top related articles. Built with NLP technologies like Universal Sentence Encoder and TF-IDF, it processes scientific documents to deliver quick, accurate information.",
       tech: [
         "Flask",
         "Python",
