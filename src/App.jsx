@@ -9,31 +9,56 @@ import ScrollProgress from './components/ui/ScrollProgress';
 import InteractiveBg from './components/ui/InteractiveBg';
 import BackToTop from './components/ui/BackToTop';
 
-const FloatingAvatar = () => {
-  const [position, setPosition] = useState({ x: window.innerWidth - 100, y: 150 });
+const FloatingAvatar = ({ activeSection }) => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
   const [isDragging, setIsDragging] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
+  // Check if device is mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+      // Reset position when screen size changes
+      if (window.innerWidth <= 768) {
+        setPosition({ x: 20, y: 80 }); // You can adjust this y value
+      } else {
+        setPosition({ x: window.innerWidth - 100, y: 150 });
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleMouseDown = (e) => {
+    if (isMobile) return; // Disable dragging on mobile
     setIsDragging(true);
     e.preventDefault();
   };
 
   const handleMouseMove = useCallback((e) => {
-    if (isDragging) {
+    if (isDragging && !isMobile) {
       setPosition({
-        x: e.clientX - 25,
-        y: e.clientY - 25
+        x: Math.min(Math.max(0, e.clientX - 25), window.innerWidth - 50),
+        y: Math.min(Math.max(0, e.clientY - 25), window.innerHeight - 50)
       });
     }
-  }, [isDragging]);
+  }, [isDragging, isMobile]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
   };
 
   const handleClick = () => {
-    if (!isDragging) {
+    if (isMobile) {
+      setIsAnimating(true);
+      // Reset animation and opacity after animation duration
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 1000);
+    } else if (!isDragging) {
       setIsAnimating(true);
       setTimeout(() => setIsAnimating(false), 1000);
     }
@@ -48,26 +73,53 @@ const FloatingAvatar = () => {
     };
   }, [handleMouseMove]);
 
+  // Mobile styles with low opacity by default
+  const mobileStyles = {
+    position: 'absolute',
+    top: '5rem',  // Adjust this value to position it lower
+    right: '1rem',
+    transform: 'none',
+    opacity: isAnimating ? 1 : 0.1, // 10% opacity by default, 100% when animating
+    transition: 'opacity 0.3s ease',
+  };
+
+  // Desktop styles
+  const desktopStyles = {
+    position: 'fixed',
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+    opacity: activeSection === 'home' ? 1 : 0.5,
+    transition: 'opacity 0.3s ease',
+  };
+
   return (
     <div
-      className="fixed z-50 cursor-move"
-      style={{ left: `${position.x}px`, top: `${position.y}px` }}
+      className={`z-50 ${isMobile ? '' : 'cursor-move'}`}
+      style={isMobile ? mobileStyles : desktopStyles}
     >
-      <div className="relative" onClick={handleClick} onMouseDown={handleMouseDown}>
-        <div className={`w-12 h-12 rounded-full overflow-hidden border-2 border-blue-500/30 
-          hover:border-blue-500 transition-all duration-300 bg-gray-800
-          ${isAnimating ? 'animate-bounce' : ''}`}
-        >
+      <div 
+        className="relative" 
+        onClick={handleClick} 
+        onMouseDown={handleMouseDown}
+      >
+        <div className={`
+          w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden 
+          border-2 border-blue-500/30 hover:border-blue-500 
+          transition-all duration-300 bg-gray-800
+          ${isAnimating ? 'animate-bounce' : ''}
+          ${isMobile ? 'hover:scale-110' : ''}
+        `}>
           <img
             src="./img/avatar.jpg"
             alt="Floating Avatar"
             className="w-full h-full object-cover"
           />
         </div>
-        <span className={`absolute -bottom-6 left-1/2 -translate-x-1/2 text-sm text-blue-400 
+        <span className={`
+          absolute -bottom-6 left-1/2 -translate-x-1/2 text-sm text-blue-400 
           whitespace-nowrap transition-opacity duration-300
-          ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
-        >
+          ${isAnimating ? 'opacity-100' : 'opacity-0'}
+        `}>
           sup
         </span>
       </div>
@@ -161,7 +213,7 @@ const App = () => {
 
   return (
     <div className="bg-gray-900 text-gray-100">
-      <FloatingAvatar />
+      <FloatingAvatar activeSection={activeSection} />
       <CustomCursor />
       <ScrollProgress />
       <InteractiveBg />
