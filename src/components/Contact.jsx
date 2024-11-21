@@ -49,16 +49,26 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleFormspreeSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate form submission
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      setSubmitStatus('success');
-      setFormState({ name: '', email: '', message: '' });
+      const response = await fetch("https://formspree.io/f/xldellbp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formState),
+      });
+
+      if (response.ok) {
+        setSubmitStatus('success');
+        setFormState({ name: '', email: '', message: '' });
+      } else {
+        setSubmitStatus('error');
+      }
     } catch (error) {
       setSubmitStatus('error');
     } finally {
@@ -71,9 +81,9 @@ const Contact = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4">
-      <h2 className="text-7xl font-bold mb-20 text-center">
+      <h2 className="text-4xl md:text-7xl font-bold mb-10 md:mb-20 text-center">
         <span className="block bg-clip-text text-transparent 
-          bg-gradient-to-r from-blue-500 via-teal-400 to-purple-500">
+          bg-gradient-to-r from-blue-500 via-teal-400 to-blue-500">
           Get In Touch
         </span>
       </h2>
@@ -158,11 +168,9 @@ const Contact = () => {
             Send a Message
           </h3>
           
-          <form 
-            action="https://formspree.io/f/xldellbp" 
-            className="space-y-6"
-            onSubmit={handleSubmit}
-          >
+          <form onSubmit={handleFormspreeSubmit} className="space-y-6">
+            <input type="hidden" name="_subject" value="New contact form submission" />
+            
             {['name', 'email'].map((field) => (
               <div key={field} className="relative">
                 <label 

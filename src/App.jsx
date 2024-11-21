@@ -40,9 +40,9 @@ const App = () => {
 
   return (
     <div className="bg-gray-900 text-gray-100">
-    <CustomCursor />
-    <ScrollProgress />
-    <InteractiveBg />
+      <CustomCursor />
+      <ScrollProgress />
+      <InteractiveBg />
       {/* Navigation */}
       <nav className="fixed top-0 left-0 w-full z-50 bg-gray-800/80 backdrop-blur-md">
         <div className="max-w-6xl mx-auto px-4 py-4">
@@ -68,9 +68,8 @@ const App = () => {
       </nav>
 
       {/* Hero Section */}
-        <section id="home" className="min-h-screen flex items-center justify-center pt-20">
-          <div className="text-center">
-            <h1 className="text-[8rem] leading-tight font-bold hover:text-shadow-glow transition-all duration-300">
+      <header className="flex flex-col items-center justify-center min-h-screen text-center">
+        <h1 className="text-4xl md:text-6xl lg:text-[8rem] leading-tight font-bold">
           <span className="block bg-clip-text text-transparent 
             bg-gradient-to-r from-blue-500 via-teal-400 to-green-500">
             Hi, I'm
@@ -79,12 +78,13 @@ const App = () => {
             bg-gradient-to-r from-blue-500 via-teal-400 to-green-500">
             Deeraj Thakkilapati
           </span>
-            </h1>
-            <h2 className="text-3xl text-teal-300 mb-8">
+        </h1>
+        <h2 className="text-xl md:text-2xl lg:text-3xl text-teal-300 mb-8">
           Data Engineer & ML Enthusiast
-            </h2>
-            
-            <div className="flex justify-center space-x-4 mb-12">
+        </h2>
+
+        {/* Social icons */}
+        <div className="flex justify-center space-x-2 md:space-x-4 mb-12">
           <a
             href="https://github.com/Deeraj7"
             target="_blank"
@@ -113,17 +113,10 @@ const App = () => {
           >
             <Mail className="w-6 h-6 text-blue-400 group-hover:animate-pulse" />
           </a>
-            </div>
+        </div>
+      </header>
 
-            <ChevronDown 
-          className="w-8 h-8 text-blue-400 mx-auto animate-bounce cursor-pointer
-    hover:shadow-[0_0_15px_rgba(0,255,242,0.3)] transition-all duration-300"
-          onClick={() => scrollToSection('about')}
-            />
-          </div>
-        </section>
-
-        {/* About Section */}
+      {/* About Section */}
       <section id="about" className="min-h-screen py-20 bg-gray-800">
         <About />
       </section>

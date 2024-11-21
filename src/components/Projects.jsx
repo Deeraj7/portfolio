@@ -81,93 +81,78 @@ const Projects = () => {
 
   return (
     <div className="w-full px-4 py-16">
-      <h2 className="text-7xl font-bold mb-20 text-center">
+      <h2 className="text-4xl md:text-7xl font-bold mb-10 md:mb-20 text-center">
         <span className="block bg-clip-text text-transparent 
-          bg-gradient-to-r from-blue-500 via-teal-400 to-purple-500">
+          bg-gradient-to-r from-blue-500 via-teal-400 to-blue-500">
           Featured Projects
         </span>
       </h2>
 
       <motion.div
         layout
-        initial={false}
         className={`min-h-[60vh] ${
           isDetailsOpen 
-            ? "container mx-auto grid grid-cols-[1fr_2fr] gap-8" 
+            ? "md:container md:mx-auto md:grid md:grid-cols-[1fr_2fr] md:gap-8" 
             : "block"
         }`}
-        transition={{
-          layout: { duration: 0.6, type: "spring", bounce: 0.2 }
-        }}
       >
-        {/* Projects Grid */}
+        {/* Project Grid */}
         <motion.div
           layout
           className={
             isDetailsOpen 
-              ? "grid grid-cols-1 gap-4 max-h-screen overflow-y-auto pr-4" 
-              : "grid grid-cols-3 gap-6 mx-auto"
+              ? "hidden md:grid md:grid-cols-1 md:gap-4 md:max-h-screen md:overflow-y-auto md:pr-4" 
+              : "container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           }
-          transition={{
-            layout: { duration: 0.6, type: "spring", bounce: 0.2 }
-          }}
         >
           {projects.map((project, index) => (
             <motion.div
               key={index}
               layout
-              initial={false}
               onClick={() => handleTileClick(index)}
               className={`relative backdrop-blur-xl bg-gray-800/80 rounded-2xl border
                 ${activeProject === index 
                   ? 'border-teal-500/50 ring-2 ring-teal-500/50' 
                   : 'border-blue-500/20 hover:border-teal-500/30'}
-                overflow-hidden cursor-pointer h-full ${
-                  isDetailsOpen ? 'hover:translate-x-2' : ''
-                }`}
-              whileHover={!isDetailsOpen ? { scale: 1.05 } : { x: 8 }}
-              transition={{
-                layout: { duration: 0.6, type: "spring", bounce: 0.2 },
-                scale: { duration: 0.2 },
-                x: { duration: 0.2 }
-              }}
+                overflow-hidden cursor-pointer`}
             >
-              <div className="aspect-video w-full overflow-hidden bg-gray-900">
-                <img
-                  src={project.media}
-                  alt={project.title}
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="p-6 flex flex-col">
-                <h3 className="text-2xl font-bold bg-clip-text text-transparent 
-                  bg-gradient-to-r from-blue-400 to-teal-400 mb-2">
-                  {project.title}
-                </h3>
-                <p className="text-gray-300 mb-4 flex-grow">{project.description}</p>
-                <div className="space-y-4">
-                  <div className="flex flex-wrap gap-2">
+              <div className="flex flex-col h-full">
+                <div className="aspect-video w-full overflow-hidden bg-gray-900">
+                  <img
+                    src={project.media}
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="p-4 flex flex-col flex-1">
+                  <h3 className="text-lg md:text-xl font-bold bg-clip-text text-transparent 
+                    bg-gradient-to-r from-blue-400 to-teal-400 mb-2">
+                    {project.title}
+                  </h3>
+                  <p className="text-sm md:text-base text-gray-300 mb-4 flex-1">
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2 mb-2">
                     {project.tech.map((tech, i) => (
                       <span
                         key={i}
-                        className="px-3 py-1 rounded-full text-sm bg-blue-500/10 
-                          text-teal-300 border border-blue-500/20"
+                        className="px-2 py-1 text-xs md:text-sm rounded-full 
+                          bg-blue-500/10 text-teal-300 border border-blue-500/20"
                       >
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <div className="flex justify-end">
+                  <div className="flex justify-end mt-2">
                     <a
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2 rounded-lg bg-blue-500/10 hover:bg-blue-500/20 
-                        transition-all duration-300 group"
                       onClick={(e) => e.stopPropagation()}
+                      className="p-2 rounded-lg bg-blue-500/10 
+                        hover:bg-blue-500/20 transition-all duration-300"
                     >
-                      <Github className="w-5 h-5 text-teal-400 group-hover:scale-110 
-                        transition-transform duration-300" />
+                      <Github className="w-5 h-5 text-teal-400" />
                     </a>
                   </div>
                 </div>
@@ -176,35 +161,44 @@ const Projects = () => {
           ))}
         </motion.div>
 
-        {/* Project Details Panel */}
+        {/* Full Screen Project Details for Mobile */}
         <AnimatePresence mode="wait">
           {isDetailsOpen && activeProject !== null && (
             <motion.div
               layout
-              initial={{ opacity: 0, x: '100%' }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: '100%' }}
-              transition={{ 
-                type: "spring",
-                stiffness: 300,
-                damping: 30
-              }}
-              className="backdrop-blur-xl bg-gray-800/80 rounded-2xl border
-                border-blue-500/20 p-8 relative max-h-screen overflow-y-auto"
+              initial={{ opacity: 0, y: '100%' }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: '100%' }}
+              transition={{ type: 'spring', damping: 25 }}
+              className="fixed inset-0 bg-gray-900 z-50 md:relative md:inset-auto
+                md:backdrop-blur-xl md:bg-gray-800/80 md:rounded-2xl md:border
+                md:border-blue-500/20 overflow-y-auto"
             >
+              {/* Close button - only visible on mobile */}
               <button
                 onClick={handleClose}
-                className="absolute top-4 right-4 p-2 rounded-full
+                className="fixed top-4 right-4 p-2 rounded-full bg-gray-800/80 
+                  border border-blue-500/20 z-50 md:hidden
                   hover:bg-blue-500/10 transition-colors duration-300"
               >
                 <X className="w-6 h-6 text-teal-400" />
               </button>
 
-              <div className="space-y-6">
+              {/* Project Details Content */}
+              <div className="p-6 pt-16 md:p-8 space-y-6">
                 <h3 className="text-3xl font-bold bg-clip-text text-transparent 
                   bg-gradient-to-r from-blue-400 to-teal-400">
                   {projects[activeProject].title}
                 </h3>
+
+                {/* Project Image - Larger on mobile */}
+                <div className="aspect-video w-full rounded-xl overflow-hidden">
+                  <img
+                    src={projects[activeProject].media}
+                    alt={projects[activeProject].title}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
 
                 <p className="text-gray-300">
                   {projects[activeProject].longDescription}
@@ -227,6 +221,18 @@ const Projects = () => {
                   </ul>
                 </div>
 
+                <div className="flex flex-wrap gap-2">
+                  {projects[activeProject].tech.map((tech, i) => (
+                    <span
+                      key={i}
+                      className="px-3 py-1 rounded-full text-sm bg-blue-500/10 
+                        text-teal-300 border border-blue-500/20"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+
                 <a
                   href={projects[activeProject].github}
                   target="_blank"
@@ -238,18 +244,16 @@ const Projects = () => {
                   <Github className="w-5 h-5 text-teal-400" />
                   <span className="text-teal-300">View Source</span>
                 </a>
-
-                <div className="aspect-video w-full rounded-lg overflow-hidden">
-                  <iframe
-                    src={projects[activeProject].video}
-                    className="w-full h-full"
-                    title={projects[activeProject].title}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
               </div>
+
+              {/* Close button for desktop */}
+              <button
+                onClick={handleClose}
+                className="hidden md:block absolute top-4 right-4 p-2 rounded-full
+                  hover:bg-blue-500/10 transition-colors duration-300"
+              >
+                <X className="w-6 h-6 text-teal-400" />
+              </button>
             </motion.div>
           )}
         </AnimatePresence>

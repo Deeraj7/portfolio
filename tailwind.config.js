@@ -47,8 +47,6 @@ export default {
         slideUp: "slide-up 0.8s ease-out forwards",
         fadeIn: "fadeIn 0.8s ease-out forwards",
         bounce: "bounce 1s infinite",
-        spin: "spin 1s linear infinite",
-        pulse: "pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite",
       },
       keyframes: {
         gradient: {
@@ -119,6 +117,7 @@ export default {
         "inner-lg": "inset 0 2px 4px 0 rgb(0 0 0 / 0.05)",
       },
       zIndex: {
+        50: "50",
         60: "60",
         70: "70",
       },
