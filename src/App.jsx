@@ -59,7 +59,7 @@ const FloatingAvatar = () => {
           ${isAnimating ? 'animate-bounce' : ''}`}
         >
           <img
-            src="/img/avatar.jpg"
+            src="./img/avatar.jpg"
             alt="Floating Avatar"
             className="w-full h-full object-cover"
           />
